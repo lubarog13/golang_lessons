@@ -1,127 +1,133 @@
 package lesson1
-import ("fmt")
 
-type Node struct {
-	Val   int
-	Next  *Node
+import (
+	"fmt"
+)
+
+type node struct {
+	val  int
+	next *node
 }
 
-type LinkedList struct {
-	Head *Node
+type linkedList struct {
+	head *node
 }
 
-func New(q int) *LinkedList {
-	list := &LinkedList{Head: nil}
+func New(q int) *linkedList {
+	list := &linkedList{head: nil}
 	for i := 0; i < q; i++ {
-		list.Add(&Node{Val: 0, Next: nil})
+		list.Add(&node{val: 0, next: nil})
 	}
 	return list
 }
 
-
-func (l *LinkedList) Add(n *Node) {
-	node := l.Head
-	if node == nil { 
-		l.Head = n
-		return 
-	}
-	for node.Next != nil {
-		node = node.Next
-	}
-	node.Next = n
+func NewNode(val int) *node {
+	return &node{val: val, next: nil}
 }
 
-func (l *LinkedList) Pop() {
-	node := l.Head
+func (l *linkedList) Add(n *node) {
+	node := l.head
+	if node == nil {
+		l.head = n
+		return
+	}
+	for node.next != nil {
+		node = node.next
+	}
+	node.next = n
+}
+
+func (l *linkedList) Pop() {
+	node := l.head
 	if node == nil {
 		return
 	}
-	if node.Next == nil {
-		l.Head = nil
+	if node.next == nil {
+		l.head = nil
 		return
 	}
 	last_node := node
-	for node.Next != nil {
+	for node.next != nil {
 		last_node = node
-		node = node.Next
+		node = node.next
 	}
-	last_node.Next = nil
+	last_node.next = nil
 }
 
-func (l *LinkedList) At(pos int) int {
-	node := l.Head
+func (l *linkedList) At(pos int) int {
+	node := l.head
 	counter := 0
 	for node != nil {
-		if (counter == pos) {
-			return node.Val
+		if counter == pos {
+			return node.val
 		}
-		node = node.Next
+		node = node.next
 		counter++
 	}
-	return nil
+	return 0
 }
 
-func (l *LinkedList) Size() int {
-	node := l.Head
+func (l *linkedList) Size() int {
+	node := l.head
 	counter := 0
 	for node != nil {
 		counter++
-		node = node.Next
+		node = node.next
 	}
 	return counter
 }
 
-func (l *LinkedList) DeleteFrom(pos int) {
-	node := l.Head
+func (l *linkedList) DeleteFrom(pos int) {
+	node := l.head
 	if node == nil {
 		return
 	}
-	if pos == 0 && node.Next != nil {
-		l.Head = node.Next
+	if pos == 0 && node.next != nil {
+		l.head = node.next
 		return
 	}
 	if pos == 0 {
-		l.Head = nil
+		l.head = nil
 		return
 	}
 	last_node := node
 	counter := 0
 	for node != nil {
 		last_node = node
-		node = node.Next
+		node = node.next
 		counter++
-		if (counter == pos) {
-			last_node.Next = node.Next
+		if counter == pos {
+			last_node.next = node.next
 		}
 	}
-} 
+}
 
-func (l *LinkedList) UpdateAt(pos, val int) {
-	node := l.Head
+func (l *linkedList) UpdateAt(pos, val int) {
+	node := l.head
 	counter := 0
 	for node != nil {
-		if (counter == pos) {
-			node.Val = val
+		if counter == pos {
+			node.val = val
 			return
 		}
-		node = node.Next
+		node = node.next
 		counter++
 	}
 }
 
-func NewFromSlice(s []int) *LinkedList {
-	list := &LinkedList{Head: &Node{Val: 0, Next: nil}}
+func NewFromSlice(s []int) *linkedList {
+	list := &linkedList{head: &node{val: 0, next: nil}}
 	for _, v := range s {
-		list.Add(&Node{Val: v, Next: nil})
+		list.Add(&node{val: v, next: nil})
 	}
 	return list
 }
 
-func (list *LinkedList) Print() {
-	node := list.Head
+func (list *linkedList) Print() {
+	node := list.head
 	for node != nil {
-		fmt.Printf("%d ", node.Val)
-		node = node.Next
+		fmt.Printf("%d ", node.val)
+		node = node.next
 	}
 	fmt.Println()
 }
